@@ -1,4 +1,6 @@
-# Welcome! Check this page periodically because I tend to post things relatively often.
+# Welcome!
+
+## Check this page periodically because I tend to post things relatively often.
 
 ## This repository will be organized into 3 main sections for now:
 
