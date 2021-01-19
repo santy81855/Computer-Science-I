@@ -74,8 +74,11 @@ int main()
 
     // Challenge 1 (medium): Create a function that will remove the current last element of the arraylist
     // challenge 2 (hard): Create a function that will take in a certain number as a parameter and removes it from the arraylist
+    // Challenge 3 (harder): Free the arraylist at the end of the program
 
     // TIP: Remember to update the size when you remove or add items from a list. Good Luck!
+
+    // I will update this file with the functions completed, but I recommend that you try to do them yourself.
 
     return 0;
 }
