@@ -2,7 +2,7 @@
 
 ## Check this page periodically because I tend to post things relatively often.
 
-## This repository will be organized into 3 main sections for now:
+## This repository will be organized into 4 main sections for now:
 
 ## Challenges
 
@@ -18,3 +18,8 @@
 
     - This will just include the files for the exam reviews I create for each exam.
     - Disclaimer: I never see the exams before hand, so I only make the reviews based on my experience having taken this class already.
+
+## Pointers
+
+    - This has a small crash course on pointers for you to follow along step by step to understand pointers.
+    - Then there are some challenges for you to put your pointer knowledge to the test.
