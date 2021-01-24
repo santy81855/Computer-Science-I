@@ -23,3 +23,7 @@
 
     - This has a small crash course on pointers for you to follow along step by step to understand pointers.
     - Then there are some challenges for you to put your pointer knowledge to the test.
+
+## Advanced Concepts
+
+    - This will be for tackling the tougher to grasp concepts of C that need to me mastered in order to be proficient.
