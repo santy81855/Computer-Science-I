@@ -208,7 +208,7 @@ int main()
     // The first pointer stores the memory address of the value
     // The second pointer stores the memory address of the first pointer
     // Another way to think about it is that with a double pointer you can make an array of single pointers.
-    // Since a word requires a single pointer, it makes sense that an array of words like a sentence, would require an array of pointers.
+    // Since a word requires a single pointer, it makes sense that an array of words like a sentence would require an array of pointers.
 
     // Lets allocate space to our new pointer so that we can store the sentence "My name is Santy"
     // First we need to allocate enough memory to hold 4 WORDS. Not 4 letters, but 4 words
