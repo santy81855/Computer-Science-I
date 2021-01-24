@@ -20,5 +20,7 @@ int main()
     // You can only pass in the struct of dog with an age of 2.
     // You may pass it by reference as well.
 
+    // Feel free to look over in the advanced_concepts folder for more info on pass_by_reference
+
     return 0;
 }
