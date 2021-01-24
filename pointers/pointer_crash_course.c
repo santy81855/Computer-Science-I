@@ -207,12 +207,14 @@ int main()
     // Well a double pointer stores 2 memory addresses.
     // The first pointer stores the memory address of the value
     // The second pointer stores the memory address of the first pointer
+    // Another way to think about it is that with a double pointer you can make an array of single pointers.
+    // Since a word requires a single pointer, it makes sense that an array of words like a sentence, would require an array of pointers.
 
     // Lets allocate space to our new pointer so that we can store the sentence "My name is Santy"
     // First we need to allocate enough memory to hold 4 WORDS. Not 4 letters, but 4 words
     sentence = calloc(4, sizeof(char *));
 
-    // The reason we use char * is because that is the size of a word, while char is the size of a letter.
+    // The reason we use char * is because that is the data type of a word/string, while char is the data type of a letter.
     // Now we need to individually allocate enough space in each word be able to write our sentence.
     // So looking at our first word "My" we can see that it is 2 letters + 1 extra for the null terminator, so we allocate 3 characters of space
     sentence[0] = calloc(3, sizeof(char));
