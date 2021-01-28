@@ -27,3 +27,7 @@
 ## Advanced Concepts
 
     - This will be for tackling the tougher to grasp concepts of C that need to me mastered in order to be proficient.
+
+## Searches
+
+    - This will include the code for linear, binary, and ternary searches.
