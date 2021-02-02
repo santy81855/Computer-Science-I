@@ -31,3 +31,8 @@
 ## Searches
 
     - This will include the code for linear, binary, and ternary searches.
+
+## Recursion
+
+    - This will include examples of different difficulties of recursive functions with explanations.
+    - I recommend practicing recursion a lot. There will also be recursion challenges in the challenges folder.
