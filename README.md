@@ -36,3 +36,7 @@
 
     - This will include examples of different difficulties of recursive functions with explanations.
     - I recommend practicing recursion a lot. There will also be recursion challenges in the challenges folder.
+
+## Permutations
+
+    - This will have the code for how to get permutations of an array of words.
