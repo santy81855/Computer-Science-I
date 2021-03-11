@@ -94,6 +94,95 @@ Node *findNode(Node *root, int target)
     // We don't need a return at the end because we will already either return the node when we find it or we will return NULL based on our base case
 }
 
+Node *removeNode(Node *root, int value)
+{
+    if (root == NULL)
+        return NULL;
+    if (value < root->data)
+        root->left = removeNode(root->left, value);
+    else if (value > root->data)
+        root->right = removeNode(root->right, value);
+    // if the target = root->data then we are on the node we want to remove, so we will write our code here
+    else if (value == root->data)
+    {
+        // Check if the node we want to remove has 0 children
+        if (root->left == NULL && root->right == NULL)
+        {
+            // all we have to do is free the node and return null in its place
+            free(root);
+            return NULL;
+        }
+        // Check if the nade we want to remove has 1 child, and it is on the left
+        if (root->right == NULL)
+        {
+            // This means we have only a left child
+            // In this case, we must replace the node we want to remove with its child
+            Node *leftChild = root->left;
+            // We can now free the node we want to remove
+            free(root);
+            // Now we can replace it with its left child by returning the left child
+            return leftChild;
+        }
+
+        // now we check if the node we want to remove has 1 child, and it is on the right
+        if (root->left == NULL)
+        {
+            // We will do the same as above except we will store the right child instead
+            Node *rightChild = root->right;
+            free(root);
+            return rightChild;
+        }
+
+        // If we make it here past the if statements above, it means the node we want to remove has 2 children.
+        // This is still not too complicated to remove, but we have to be aware of a couple of concepts:
+        // We can't just replace this node with its right or left child, we have to replace it with 1 of the following nodes:
+        // 1) The Largest node to the left of it or the smallest node to the right of it. It is your choice.
+        // The reason we have to do this is because either of those 2 options will give you a node that can go in the place of the one we want to remove without messing up the order.
+        // I will choose the largest on the left.
+
+        // So we go to the left of the node
+        Node *replacement = root->left;
+
+        // The following while loop will take us to the largest node on the left of the node we want to remove.
+        // It is basically saying, "as long as there is a larger node (a node on the right), we will move into it"
+        while (replacement->right != NULL)
+            replacement = replacement->right;
+
+        // The node with the value we want to remove is stored in "root" right now. The node with the value we need to replace it with is stored under "replacement".
+        // So let's replace that value
+        root->data = replacement->data;
+
+        // Now that the node has the appropriate value, we have to remove the node with the duplicate value. aka the node stored in the "replacement" variable
+        // The way we can do that is by just taking advantage of the recursion.
+        // We know that for the node to be the largest on the left, it cannot have a right child, so it will fall into one of the cases above.
+        // The only concept to be aware of here, is that we have to call the removeNode() function to the left of the current node so that we don't remove the node we are on.
+        root->left = removeNode(root->left, replacement->data);
+    }
+
+    // Don't forget to return the root after we have finished the function
+}
+
+void reverseOrderPrint(Node *root)
+{
+    if (root == NULL)
+        return;
+
+    reverseOrderPrint(root->right);
+    printf("%d\n", root->data);
+    reverseOrderPrint(root->left);
+}
+
+int findMin(Node *root)
+{
+    // This function is super easy. We know that we can just go left until we hit null and we will be on the smallest value
+    // First we check for an empty tree, however
+    if (root == NULL)
+        return -98765431; // just returning a number that is very unlikely to be in a tree
+    while (root->left != NULL)
+        root = root->left;
+    return root->data;
+}
+
 int main()
 {
     // Let's declare a tree. It is very similar to a linked list, but
@@ -105,11 +194,21 @@ int main()
     root = addNode(root, 1);
     root = addNode(root, 2);
     root = addNode(root, 3);
+    root = addNode(root, -2);
 
     // Now let's print the tree inOrder
+    printf("In order:\n");
     inOrderPrint(root);
 
-    // The function for removing a node is actually quite complicated so we can talk about it in session sometime
+    // Now let's print the tree in reverse order
+    printf("In reverse order:\n");
+    reverseOrderPrint(root);
+
+    // Let's find the smalles value in the tree and print it
+    printf("The smalles value in the tree is %d\n", findMin(root));
+
+    // Remove the node with the value 1
+    root = removeNode(root, 1);
 
     // Let's find a node in the tree and return it into a temp variable so we can print it
     Node *temp = findNode(root, 2);
