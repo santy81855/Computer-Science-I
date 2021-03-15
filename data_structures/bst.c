@@ -160,6 +160,7 @@ Node *removeNode(Node *root, int value)
     }
 
     // Don't forget to return the root after we have finished the function
+    return root;
 }
 
 void reverseOrderPrint(Node *root)
