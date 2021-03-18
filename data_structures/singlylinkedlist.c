@@ -19,6 +19,9 @@ Node *createNode(int);
 Node *addToTail(Node *, int);
 Node *addToFront(Node *, int);
 void printList(Node *);
+Node *deleteTail(Node *);
+Node *deleteFront(Node *);
+void freeList(Node *);
 
 int main()
 {
@@ -39,9 +42,11 @@ int main()
     printList(head);
 
     // functions for you to work on. I will post the completed code if anyone asks.
-    // head = deleteTail(head);
-    // head = deleteFront(head);
-    // freeList(head);
+    head = deleteTail(head);
+    printList(head);
+    head = deleteFront(head);
+    printList(head);
+    freeList(head);
 
     return 0;
 }
@@ -52,6 +57,67 @@ Node *createNode(int value)
     new->data = value;
     new->next = NULL;
     return new;
+}
+
+void freeList(Node *head)
+{
+    // freeing a linked list is one of the times where using recursion makes the code a whole lot easier
+    // if the list is empty or we reach the end of the list
+    if (head == NULL)
+    {
+        // we go ahead and return to end the current recursive call
+        return;
+    }
+
+    // we do the recursive call to move to the end of the list since you want to free from tail to head
+    freeList(head->next);
+    // Since we want to free from tail to head we call free() after the recursive call
+    free(head);
+}
+
+Node *deleteTail(Node *head)
+{
+    // if the tree is empty then there is nothing to remove
+    if (head == NULL)
+        return NULL;
+
+    // Since getting to the node right before the tail requires us to use cur->next->next in the while loop, we have to first make sure that there are at least 2 nodes in the list
+    if (head->next == NULL)
+    {
+        // if there is only 1 node in the list we can just remove it
+        free(head);
+        return NULL;
+    }
+    // when removing the tail of a linked list we want to traverse first to the node right before it
+    // We can do that with the following while loop
+    Node *cur = head;
+    while (cur->next->next != NULL)
+        cur = cur->next;
+
+    // now cur is storing the node right before the tail
+    // we can now remove the tail safely
+    free(cur->next);
+    // and set cur->next to null to show that it is the new tail
+    cur->next = NULL;
+    // return the head back to main
+    return head;
+}
+
+Node *deleteFront(Node *head)
+{
+    // Deleting the head of a linked list is super straightforward
+    // We first check to see if the list is empty
+    if (head == NULL)
+        return NULL; // if it is empty theen there is nothing to remove
+
+    // Next we store whatever comes next in the list after head
+    Node *temp = head->next;
+    // We free the head
+    free(head);
+    // We set head to be the node we had stored, since that will be the new head
+    head = temp;
+    // we return the head back to main
+    return head;
 }
 
 Node *addToTail(Node *head, int value)
