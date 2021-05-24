@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+  // allocate enough memory in the following pointer to store a single integer
+
+  // we declare the integer pointer
+  int * x = (int *) calloc(1, sizeof(int));
+
+  // out of bounds 
+  x[0] = 100;
+  printf("x = %d\n", x[0]);
+  *x = 100;
+  printf("x = %d\n", *x);
+
+  // option 1: array of structs that each have a word
+
+  // option 2: double character pointer
+
+  // a double pointer stores 2 memory addresses therefore it must be dereferenced two times to get to the value it is storing
+
+  // allocate enough space to store 4 words that can each store a 10 letter word max
+
+  char ** arr = (char **) calloc(4, sizeof(char *));
+
+  for(int i = 0; i < 4; i++)
+  {
+    arr[i] = (char *) calloc(11, sizeof(char));
+  }
+
+  // practice filling this array of words with your own words - strcpy()
+  // I will place a word into the second word in the array
+  strcpy(arr[1], "hello");
+  // notice you don't need to manually add the null terminator
+
+  // practice freeing this array of words
+  // You have to free in the reverse order that you allocated because if you were to free the double pointer first you would lose access to all of the single pointers and it would create a memory leak
+  // since we allocated for each word in a for loop, we can free in a for loop as well
+  for(int i = 0; i < 4; i++)
+  {
+    // You just free the same thing on the left side of the '=' sign in your calloc or malloc call
+    free(arr[i]);
+  }
+  // now that we have freed each word, we can free the entire list of words
+  free(arr);
+
+  return 0;
+}
