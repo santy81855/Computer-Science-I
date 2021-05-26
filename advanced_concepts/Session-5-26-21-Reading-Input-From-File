@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+The list of people is in a text file named "people.txt".
+A name will be at most 101 characters.
+
+You need to store all of the people in Person structs and then find the person who's age is 65, and change it back to 25.
+*/
+
+// the max length is 102 because we want to account for the null terminator
+#define MAX_LENGTH 102
+
+typedef struct Person
+{
+  int age;
+  char * name;
+} Person;
+
+Person * findPerson(Person ** peopleArray, int numPeople)
+{
+  for(int i = 0; i < numPeople; i++)
+  {
+    // if you find the person with age 65, then just return them
+    if (peopleArray[i]->age == 65)
+      return peopleArray[i];
+  }
+  // return null if you don't find anyone with age 65
+  return NULL;
+}
+
+int main()
+{
+  // declare a file pointer that will store our input file
+  FILE * inputFile = fopen("people.txt", "r");
+
+  // we need to know how many people to scan
+  int numPeople;
+  fscanf(inputFile, "%d", &numPeople);
+  
+  // print the number of people just to make sure we scanned in properly
+  printf("The number of people is: %d\n", numPeople);
+
+  // create a single static variable that can store all of the names
+  char name[MAX_LENGTH];
+
+  // we are scannig the word "people" to be able to move on down the file, but we won't use it for anything
+  fscanf(inputFile, "%s", name);
+
+  // declare a double struct pointer that will be used to store the array of single struct pointers that will then each store a struct
+  Person ** peopleArray = (Person **) calloc(numPeople, sizeof(Person *));
+
+  // we allocate  enough space into each of the 6 single pointers to be able to each store 1 Person struct, since we only need to store the info of 6 people
+  for (int i = 0; i < numPeople; i++)
+  {
+    peopleArray[i] = (Person *) calloc(1, sizeof(Person));
+  }
+
+  // we use the length variable to get the exact length of each name as we scan it from the input file, so we don't use unnecessary memory
+  int length;
+  // the age will be used to store the age from the input file
+  int age;
+  for (int i = 0; i < numPeople; i++)
+  {
+    // scan the name from the input file
+    fscanf(inputFile, "%s", name);
+    // get the length of the name
+    length = strlen(name); // this will not account for the null terminator
+    length++; // increment the length by 1 to account for the null terminator
+    // give the name variable inside of the struct enough space to store the particular name
+    peopleArray[i]->name = (char *) calloc(length, sizeof(char));
+    // add the name to the struct
+    strcpy(peopleArray[i]->name, name);
+    // scan the age
+    fscanf(inputFile, "%d", &age);
+    // place the age we scanned from the file into the current Person struct
+    peopleArray[i]->age = age;
+  }
+
+  // now that we have stored all of the people from the file, we need to find the person who has an age of 65. We can make that into a function to get some practice using functions. The function will return the struct pointer of the person with an age of 65.
+
+  Person * personAge65 = findPerson(peopleArray, numPeople);
+  // now personAge65 is storing the person with the age of 65 unless there was no one with that age, in which case it will be NULL
+  if (personAge65 == NULL)
+  {
+    printf("There is no person with that age\n");
+  }
+  else
+  {
+    // if we do find a person with that age, we want to change it to 25
+    printf("Changing %s's age back to 25\n", personAge65->name);
+    personAge65->age = 25;
+  }
+
+  // print all of the information of every person to make sure their age was changed appropriately
+  for(int i = 0; i < numPeople; i++)
+  {
+    printf("Person #%d: Age: %d Name: %s\n", i + 1, peopleArray[i]->age, peopleArray[i]->name);
+  }
+  
+  // now we free it all in the reverse order that we allocated it in
+  for(int i = 0; i < numPeople; i++)
+  {
+    // free the space we allocated for each name first
+    free(peopleArray[i]->name);
+    // then free the space we allocated for each struct pointer next
+    free(peopleArray[i]);
+  }
+  // finally free the double pointer
+  free(peopleArray);
+  // and then free the pointer storing the input file, since we are done using the file
+  fclose(inputFile);
+
+  return 0;
+}
