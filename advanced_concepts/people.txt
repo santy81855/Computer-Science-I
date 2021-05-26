@@ -1,0 +1,7 @@
+6 people
+alex 25
+julia 26
+almina 22
+michael 23
+siri 24
+alaine 65
