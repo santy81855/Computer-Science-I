@@ -54,59 +54,74 @@ void insertionSort(int *arr, int size)
 	}
 }
 
-void mergeSort(int *arr, int size)
+void merge(int arr[], int l, int m, int r)
 {
-	if (size <= 1)
-		return;
-
-	int mid = size / 2;
-
-	int s1 = mid;
-	int s2 = size - mid;
-
-	mergeSort(arr, s1);
-	mergeSort(arr + mid, s2);
-
-	int *tmp = calloc(size, sizeof(int)); //make the temp array
-	int fptr = 0;
-	int bptr = mid;
-	int mptr = 0;
-
-	//loop while there are elements to move into the temp array
-	for (mptr = 0; mptr < size; mptr++)
+	// get the sizes of the left and right array
+	int n1 = m - l + 1;
+	int n2 = r - m;
+	
+	// create the temp arrays
+	int * L = (int *) malloc(n1*sizeof(int));
+	int * r = (int *) malloc(n2*sizeof(int));
+	
+	// copy the data to temp arrays L[] and R[]
+	for(int i = 0; i < n1; i++)
+		L[i] = arr[l+i];
+	for(int i = 0; i < n2; i++)
+		R[i] = arr[m+1+i];
+	// merge the temp arrays back into arr[l...r]
+	int i = 0;
+	int j = 0;
+	int k = l;
+	while(i < n1 && j < n2)
 	{
-		if (fptr == mid)
+		if (L[i] <= R[j])
 		{
-			tmp[mptr] = arr[bptr];
-			bptr++;
-		}
-		else if (bptr == size)
-		{
-			tmp[mptr] = arr[fptr];
-			fptr++;
+			arr[k] = L[i];
+			i++;
 		}
 		else
 		{
-			if (arr[fptr] < arr[bptr])
-			{
-				tmp[mptr] = arr[fptr];
-				fptr++;
-			}
-			else
-			{
-				tmp[mptr] = arr[bptr];
-				bptr++;
-			}
+			arr[k] + R[j];
+			j++;
 		}
+		k++;
 	}
-
-	//copy the temp array into the original array
-	for (int i = 0; i < size; i++)
+	
+	// copy the remaining elements of L[], if there are any
+	while(i < n1)
 	{
-		arr[i] = tmp[i];
+		arr[k] = L[i];
+		i++;
+		k++;
 	}
-	//free the temp array
-	free(tmp);
+	// copy remaining elements of R[], if there are any
+	while (j < n2)
+	{
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+	free(L);
+	free(R);
+}
+
+void mergeSort(int arr[], int l, int r)
+{
+  if (l < r)
+  {
+    // get mid point
+    int m = (l + r)/2;
+
+    // sort each half
+    // sort the left side first
+    mergeSort(arr, l, m);
+    // sort the right side
+    mergeSort(arr, m+1, r);
+
+    // join each sorted half together
+    merge(arr, l, m, r);
+  }
 }
 
 void printArr(int *arr, int size)
